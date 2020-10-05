@@ -12,11 +12,6 @@ class IndeedSpider(scrapy.Spider):
         super().__init__(**kwargs)
 
     def start_requests(self):
-        # The url contains entry jobs, full time for data engineering and software engineering jobs
-        # start_urls = [
-        #     "https://www.indeed.com/jobs?q=data+engineer&jt=fulltime&explvl=entry_level",
-        #     "https://www.indeed.com/jobs?q=software+engineer&jt=fulltime&explvl=entry_level",
-        # ]
         for start_url in self.start_urls:
             yield scrapy.Request(url=start_url, callback=self.parse)
 
@@ -27,11 +22,11 @@ class IndeedSpider(scrapy.Spider):
             url_link = response.urljoin(url_path)
             yield scrapy.Request(url=url_link, callback=self.parse_items)
 
-        # next_page = response.xpath("//div[@class='pagination']/ul/li/a[@aria-label='Next']").get()
-        # if next_page:
-        #     next = response.xpath("//div[@class='pagination']/ul/li/a/@href")[-1].get()
-        #     next_url = response.urljoin(next)
-        #     yield scrapy.Request(url=next_url, callback=self.parse)
+        next_page = response.xpath("//div[@class='pagination']/ul/li/a[@aria-label='Next']").get()
+        if next_page:
+            next = response.xpath("//div[@class='pagination']/ul/li/a/@href")[-1].get()
+            next_url = response.urljoin(next)
+            yield scrapy.Request(url=next_url, callback=self.parse)
 
     def parse_items(self, response):
         loader = ItemLoader(IndeedWebscraperItem(), response)
