@@ -1,0 +1,14 @@
+drivers/
+scrap_book.ipynb
+database_jobs.json
+new_jobs.json
+
+
+__pycache__/
+*.pyc
+.vscode
+*.save
+env/
+build/
+var/
+.ipynb_checkpoints
